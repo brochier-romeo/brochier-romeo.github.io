@@ -1,0 +1,28 @@
+{
+    "artifacts": [
+        {
+            "name": "Clay Tablet",
+            "description": "Found in the ruins of Pompeii, 79 AD",
+            "image": 
+"https://upload.wikimedia.org/wikipedia/commons/e/ea/Roman_Coppy_185.jpg",
+            "location": "Pompeii",
+            "year": 120
+        },
+        {
+            "name": "Marble Column Fragment",
+            "description": "From the Temple of Artemis, Ephesus",
+            "image": 
+"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Temple_of_Artemi"https://upload.wikimedia.org/wikipedia/commons/thumb//3e/Temple_of_Artemis_Ephesus.jpg/640px-Temple_of_Artemis_Ephesus.jpg",
+            "location": "Ephesus",
+            "year": 500
+        },
+        {
+            "name": "Parchment Scroll",
+            "description": "Written by Cicero on linen scrolls",
+            "image": 
+"https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Cicero_Epistulae"https://upload.wikimedia.org/wikipedia/commons/thumb//7f/Cicero_Epistulae.jpg/640px-Cicero_Epistulae.jpg",
+            "location": "Rome",
+            "year": 50
+        }
+    ]
+}

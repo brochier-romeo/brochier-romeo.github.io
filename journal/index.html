@@ -1,0 +1,22 @@
+---
+title: Epistulae
+permalink: /journal/
+---
+
+<section class="page-intro">
+  <p class="eyebrow">Letters from the archive</p>
+  <h1>Epistulae</h1>
+  <p>Notes, discoveries and stories from the ancient Mediterranean.</p>
+</section>
+
+<div class="post-list">
+  {% for post in site.posts %}
+    <article class="post-list-item">
+      <p class="eyebrow">{{ post.date | date: "%d %B %Y" }}</p>
+      <h2><a href="{{ post.url | relative_url }}">{{ post.title | escape }}</a></h2>
+      <p>{{ post.excerpt | strip_html | truncate: 220 }}</p>
+    </article>
+  {% else %}
+    <p class="quiet-note">The archive is being arranged. New letters will appear here soon.</p>
+  {% endfor %}
+</div>

@@ -1,0 +1,30 @@
+title: "Romeo's Random Collections"
+description: "A cabinet of curiosities inspired by the art, architecture, writing and everyday life of the ancient Mediterranean."
+url: "https://brochier-romeo.github.io"
+baseurl: ""
+
+markdown: kramdown
+permalink: /journal/:year/:month/:day/:title/
+timezone: Europe/Paris
+
+plugins:
+  - jekyll-feed
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - vendor
+  - node_modules
+  - package.json
+  - package-lock.json
+  - eleventy.config.js
+  - src
+  - .github
+  - .DS_Store
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default

@@ -1,0 +1,14 @@
+# Demonstration entries. Replace these with your own discoveries as the collection grows.
+# category controls the separator colour in the ticker.
+- title: "A first note from the archive"
+  url: "/journal/"
+  category: "writing"
+- title: "The story behind this collection"
+  url: "/about/"
+  category: "history"
+- title: "Wander through the library"
+  url: "/library/"
+  category: "books"
+- title: "A place for curious discoveries"
+  url: "/cabinet/"
+  category: "oddities"

@@ -1,0 +1,58 @@
+---
+layout: pantheon
+title: The Pantheon — A Cabinet of Curiosities
+description: A living collection of things worth keeping, stories worth retelling, and curiosities from every corner.
+---
+
+<section class="pantheon-stage" aria-label="The Pantheon">
+  <div class="architecture-image" role="img" aria-label="The Caryatid Porch of the Erechtheion on the Acropolis in Athens"></div>
+  <div class="architecture-vignette" aria-hidden="true"></div>
+  <div class="sun-haze" aria-hidden="true"></div>
+
+  <div class="masthead-mark" aria-hidden="true">
+    <span class="masthead-rule"></span>
+    <span class="masthead-name">THE PANTHEON</span>
+    <span class="masthead-subtitle">A CABINET OF CURIOSITIES</span>
+    <span class="masthead-rule"></span>
+  </div>
+
+  <nav class="inscription-nav" aria-label="Explore the collection">
+    <a href="{{ '/library/' | relative_url }}"><span class="inscription-word">Bibliotheca</span><span class="inscription-translation">The Library</span></a>
+    <a href="{{ '/triclinium/' | relative_url }}"><span class="inscription-word">Triclinium</span><span class="inscription-translation">The Dining Room</span></a>
+    <a href="{{ '/scriptorium/' | relative_url }}"><span class="inscription-word">Scriptorium</span><span class="inscription-translation">The Writing Room</span></a>
+    <a href="{{ '/gallery/' | relative_url }}"><span class="inscription-word">Pinacotheca</span><span class="inscription-translation">The Gallery</span></a>
+    <a href="{{ '/agora/' | relative_url }}"><span class="inscription-word">Agora</span><span class="inscription-translation">The Public Square</span></a>
+    <a href="{{ '/cabinet/' | relative_url }}"><span class="inscription-word">Thesaurus</span><span class="inscription-translation">The Cabinet</span></a>
+  </nav>
+
+  <div class="hero-spacer" aria-hidden="true"></div>
+
+  <section class="loose-relics" aria-label="Loose Relics — a rotating selection">
+    <div class="ticker-heading">
+      <span class="ticker-star" aria-hidden="true">✳</span>
+      <span>LOOSE RELICS</span>
+      <span class="ticker-live">A SCATTERING OF FINDS</span>
+    </div>
+    <div class="ticker-window">
+      <div class="ticker-track">
+        {% for pass in (1..2) %}
+          <div class="ticker-group" {% if pass == 2 %}aria-hidden="true"{% endif %}>
+            {% for relic in site.data.loose_relics %}
+              <a class="ticker-item" href="{{ relic.url | relative_url }}" {% if relic.external %}target="_blank" rel="noopener noreferrer"{% endif %}>
+                <span class="ticker-dot dot-{{ relic.category | slugify }}" aria-hidden="true"></span>
+                <span>{{ relic.title | escape }}</span>
+              </a>
+            {% endfor %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+    <p class="ticker-note">Interesting things, gathered along the way</p>
+  </section>
+
+  <div class="bottom-caption">
+    <span>ERECHTHEION · ATHENS</span>
+    <span class="caption-separator">✦</span>
+    <span>ENTER WITH CURIOSITY</span>
+  </div>
+</section>
