@@ -1,6 +1,6 @@
 ---
 title: Home
 ---
-# Salve!
+# Hi!
 
-Welcome to my little library. lets hope this works
+Obviously this is a work in progress idk wtf you expected
