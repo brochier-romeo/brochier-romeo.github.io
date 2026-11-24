@@ -1,3 +1,7 @@
+@font-face { font-family: "Libron"; src: url("../fonts/Libron-Regular.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Libron"; src: url("../fonts/Libron-Italic.woff2") format("woff2"); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: "Libron"; src: url("../fonts/Libron-Bold.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: "ToY"; src: url("../fonts/ToY-Regular.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
 :root {
   --ink: #29251f;
   --ink-soft: #5e5548;
@@ -7,9 +11,10 @@
   --gold: #b18a45;
   --gold-light: #f0c85e;
   --bronze: #573a20;
-  --font-display: "Cinzel", Georgia, serif;
-  --font-body: "Source Sans 3", Arial, sans-serif;
-  --font-inscription: "IM Fell English", Georgia, serif;
+  --font-body: "Libron", Georgia, serif;      /* default text */
+  --font-display: "Libron", Georgia, serif;
+  --font-relics: "Libron", Georgia, serif;    /* floating relics */
+  --font-title: "ToY", "Libron", Georgia, serif; /* pantheon titles */
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
@@ -20,65 +25,62 @@ a { color: inherit; }
 .pantheon-page { overflow: hidden; background: #8bd7e4; }
 .pantheon { min-height: 100svh; }
 
-/* The whole porch is always visible: the frame keeps the photo's 4:3 shape,
-   sits in the bottom-right corner and the sky colour fills the rest. */
+/* The scene (temple + ground) is always anchored to the bottom of the page and is as wide as the window.
+   It was extended sideways so the temple itself is about half the window width, centred. Whatever space is
+   left above is plain sky, which is where the loose relics float. */
 .pantheon-stage {
   --sky: #8bd7e4;
-  --fw: min(100vw, calc(100svh * 4 / 3));
-  --fh: calc(var(--fw) * 3 / 4);
+  --sw: 100vw;                                  /* scene width */
+  --sh: calc(var(--sw) * 1450 / 3268);          /* scene height (image is 3268 x 1450) */
   position: relative; isolation: isolate; width: 100%; height: 100svh; overflow: hidden;
   background: var(--sky);
 }
-.pantheon-frame { position: absolute; right: 0; bottom: 0; width: var(--fw); height: var(--fh); container-type: inline-size; }
-.architecture-image {
-  display: block; width: 100%; height: 100%; user-select: none; -webkit-user-drag: none;
-  animation: fade-in 1.2s ease-out both;
-}
-@media (max-aspect-ratio: 4/3) {
-  /* On tall windows the roof line would end in a hard edge, so melt it into the sky. */
-  .architecture-image { -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 7%); mask-image: linear-gradient(180deg, transparent 0, #000 7%); }
-}
+.pantheon-scene { position: absolute; left: 50%; bottom: 0; width: var(--sw); height: var(--sh); transform: translateX(-50%); container-type: inline-size; }
+.architecture-image { display: block; width: 100%; height: 100%; user-select: none; -webkit-user-drag: none; animation: fade-in 1.2s ease-out both; }
 .atmosphere-grain {
   position: fixed; inset: 0; z-index: 5; pointer-events: none; opacity: .06;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.92' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.34'/%3E%3C/svg%3E");
 }
 
-/* Titles are carved into the architrave. Positions are % of the photo, so they stay on the stone at any size. */
+/* Titles sit on the temple's frieze/architrave in two rows. Positions are % of the scene, so they stay on the stone at any size. */
 .inscription-nav { position: absolute; inset: 0; z-index: 4; animation: fade-in 1.6s .4s both; }
 .inscription-nav a {
-  position: absolute; left: var(--x); top: var(--y); transform: translate(-50%, -50%) rotate(var(--r));
-  font: 600 1.5cqw/1 var(--font-display); letter-spacing: .09em; text-transform: uppercase; white-space: nowrap;
-  color: rgba(88, 62, 34, .78); text-decoration: none;
-  text-shadow: 0 .09cqw 0 rgba(255, 247, 226, .55), 0 -.05cqw 0 rgba(58, 36, 16, .3);
-  transition: color .3s ease;
+  position: absolute; left: var(--x); top: var(--y); transform: translate(-50%, -50%) rotate(3.4deg);
+  font: 400 2.2cqw/1 var(--font-title); letter-spacing: .01em; white-space: nowrap; text-decoration: none;
+  color: rgba(46, 26, 9, .9); -webkit-text-stroke: .04cqw currentColor;
+  text-shadow: 0 .07cqw 0 rgba(255, 224, 168, .32), 0 -.05cqw 0 rgba(28, 14, 4, .4);
+  transition: color .35s ease, text-shadow .35s ease;
 }
-.inscription-nav a:hover, .inscription-nav a:focus-visible { color: rgba(46, 28, 12, .96); outline: none; }
-.inscription-nav a:focus-visible { text-decoration: underline; text-underline-offset: .5cqw; }
-.t-recipes { --x: 15.8%; --y: 23.1%; --r: -8.5deg; }
-.t-social  { --x: 28.8%; --y: 21.0%; --r: -8.5deg; }
-.t-blog    { --x: 43.0%; --y: 18.2%; --r: -8.5deg; }
-.t-boards  { --x: 74.6%; --y: 17.3%; --r: 4deg; }
-.t-relics  { --x: 89.0%; --y: 18.6%; --r: 4deg; }
+.inscription-nav a:hover, .inscription-nav a:focus-visible {
+  color: #ffb000; outline: none;
+  text-shadow: 0 0 .7cqw rgba(255, 176, 0, .32), 0 .08cqw 0 rgba(90, 48, 0, .55);
+}
+.inscription-nav a:focus-visible { text-decoration: underline; text-underline-offset: .12em; }
+.t-recipes { --x: 41.68%; --y: 32.14%; }
+.t-social  { --x: 49.69%; --y: 33.22%; }
+.t-blog    { --x: 58.81%; --y: 34.41%; }
+.t-boards  { --x: 45.90%; --y: 37.67%; }
+.t-relics  { --x: 59.06%; --y: 39.42%; }
 
-/* Loose relics drift over the base of the porch: no band, no pause, barely any glow. */
+/* Loose relics drift through the sky above the temple: no band, no pause, no glow, 0.5px outer stroke. */
 .loose-relics {
-  position: absolute; z-index: 4; left: 0; right: 0; bottom: calc(var(--fh) * .045);
+  position: absolute; z-index: 4; left: 0; right: 0; top: max(calc((100svh - var(--sh)) / 2), 2rem); transform: translateY(-50%);
   overflow: hidden; pointer-events: none; animation: fade-in 1.6s .8s both;
 }
 .ticker-track { display: flex; width: max-content; animation: ticker-scroll var(--dur, 60s) linear infinite; }
-.ticker-group { display: flex; flex: 0 0 auto; align-items: center; gap: calc(var(--fw) * .035); padding-right: calc(var(--fw) * .035); }
+.ticker-group { display: flex; flex: 0 0 auto; align-items: center; gap: 5vw; padding-right: 5vw; }
 .ticker-item {
   display: inline-flex; align-items: center; gap: .7em; white-space: nowrap; pointer-events: auto;
-  color: #4a3219; font: 500 calc(var(--fw) * .0145)/1.4 var(--font-display); letter-spacing: .04em; text-decoration: none;
-  text-shadow: 0 1px 3px rgba(255, 245, 220, .5), 0 2px 5px rgba(40, 25, 10, .22);
+  color: #e1d83d; font: 400 clamp(15px, 1.5vw, 30px)/1.5 var(--font-relics); letter-spacing: .02em; text-decoration: none;
+  -webkit-text-stroke: 1px #000; paint-order: stroke fill;   /* fill is painted over the inner half, leaving a 0.5px outer stroke */
   transition: color .25s ease;
 }
-.ticker-item:hover, .ticker-item:focus-visible { color: #1f1208; outline: none; }
-.ticker-dot { width: .42em; height: .42em; flex: 0 0 .42em; border-radius: 50%; background: #b4552e; }
-.dot-writing { background: #b4552e; }
-.dot-history { background: #6f8a58; }
-.dot-books { background: #7a6fa8; }
-.dot-oddities { background: #b8862e; }
+.ticker-item:hover, .ticker-item:focus-visible { color: #f1ea6e; outline: none; }
+.ticker-dot { width: .42em; height: .42em; flex: 0 0 .42em; border-radius: 50%; background: #e1d83d; box-shadow: 0 0 0 .5px #000; }
+.dot-writing { background: #e8825a; }
+.dot-history { background: #9bbf7e; }
+.dot-books { background: #a99ee0; }
+.dot-oddities { background: #e1d83d; }
 
 #birds-canvas { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 3; pointer-events: none; opacity: .88; }
 @keyframes ticker-scroll { from { transform: translateX(0); } to { transform: translateX(var(--shift, -50%)); } }
@@ -102,6 +104,9 @@ body:not(.pantheon-page) { background: var(--paper-light); }
 .site-footer { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; padding: 1.5rem clamp(1.5rem,5vw,5rem); background: #211e19; color: #d8cdb9; font-size: .8rem; }
 .site-footer a { color: var(--gold-light); text-decoration: none; }
 
+@media (max-width: 800px) {
+  .pantheon-stage { --sw: 190vw; }
+}
 @media (max-width: 700px) {
   .site-header { align-items: flex-start; flex-direction: column; padding-top: 1.1rem; padding-bottom: 1.1rem; gap: 1rem; }
   .primary-nav { gap: .7rem 1rem; }
