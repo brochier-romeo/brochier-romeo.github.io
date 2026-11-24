@@ -1,18 +1,38 @@
 (() => {
-  // Shuffle the ticker once per visit, then mirror it for a seamless loop.
+  // Relics: shuffle once per visit, then repeat the row until it always fills the screen
+  // and slide it at a steady speed. It never pauses.
   const tickerTrack = document.querySelector(".ticker-track");
   if (tickerTrack) {
-    const groups = Array.from(tickerTrack.children);
-    if (groups.length > 1) {
-      const first = groups[0];
-      const items = Array.from(first.children);
-      for (let i = items.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [items[i], items[j]] = [items[j], items[i]];
-      }
-      items.forEach((item) => first.appendChild(item));
-      groups[1].replaceChildren(...items.map((item) => item.cloneNode(true)));
+    const base = tickerTrack.querySelector(".ticker-group");
+    const items = Array.from(base.children);
+    for (let i = items.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [items[i], items[j]] = [items[j], items[i]];
     }
+    items.forEach((item) => base.appendChild(item));
+
+    const SPEED = 42; // pixels per second
+    const buildTicker = () => {
+      Array.from(tickerTrack.children).slice(1).forEach((node) => node.remove());
+      const rowWidth = base.getBoundingClientRect().width;
+      if (!rowWidth) return;
+      const copies = Math.ceil(window.innerWidth / rowWidth) + 1;
+      for (let i = 0; i < copies; i++) {
+        const copy = base.cloneNode(true);
+        copy.setAttribute("aria-hidden", "true");
+        copy.querySelectorAll("a").forEach((a) => a.setAttribute("tabindex", "-1"));
+        tickerTrack.appendChild(copy);
+      }
+      tickerTrack.style.setProperty("--shift", `-${rowWidth}px`);
+      tickerTrack.style.setProperty("--dur", `${rowWidth / SPEED}s`);
+    };
+    const ready = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
+    ready.then(buildTicker);
+    let resizeTimer = 0;
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(buildTicker, 150);
+    }, { passive: true });
   }
 
   const canvas = document.getElementById("birds-canvas");
